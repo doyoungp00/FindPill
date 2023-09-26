@@ -2,26 +2,28 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SHADOWS, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
-  container: {
+  container: (color) => ({
     alignItems: "center",
-    width: "40%",
+    width: "45%",
     aspectRatio: 1,
-    padding: SIZES.xLarge,
-    backgroundColor: COLORS.primary,
+    padding: SIZES.medium,
+    backgroundColor: color ? color : COLORS.primary,
     borderRadius: SIZES.medium,
     justifyContent: "space-between",
     ...SHADOWS.medium,
     shadowColor: COLORS.white,
     fontFamily: FONT.regular,
-    marginLeft: SIZES.large,
-    marginRight: SIZES.large,
-  },
+    marginLeft: SIZES.medium,
+    marginRight: SIZES.medium,
+    flexDirection: "column",
+  }),
   logoContainer: {
     alignItems: "center",
-    width: "80%",
+    width: "70%",
     aspectRatio: 1,
     borderRadius: SIZES.medium,
     justifyContent: "center",
+    marginBottom: SIZES.small,
   },
   logoImage: {
     width: "100%",
@@ -29,8 +31,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: FONT.regular,
-    fontSize: SIZES.xxLarge,
+    fontSize: SIZES.large,
     color: COLORS.lightWhite,
+    textAlign: "center",
   },
 });
 
