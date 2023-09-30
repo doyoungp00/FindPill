@@ -5,9 +5,22 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "$(PRODUCT_NAME)이 카메라를 사용하려고 합니다."
+        }
+      ]
     ],
     "name": "FindPill",
-    "slug": "FindPill"
+    "slug": "FindPill",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "userInterfaceStyle": "automatic"
+    },
+    "android": {
+      "userInterfaceStyle": "automatic"
+    }
   }
 }

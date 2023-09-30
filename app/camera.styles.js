@@ -2,24 +2,17 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SHADOWS, SIZES } from "../constants";
 
 const styles = StyleSheet.create({
-  mainMenuContainer: (colorScheme) => ({
+  container: {
     flex: 1,
-    justifyContent: "center", // Center vertically
     alignItems: "center", // Center horizontally
-
-    backgroundColor: colorScheme === "dark" ? COLORS.gray2 : COLORS.lightWhite,
-  }),
-  logoContainer: {
-    width: "25%",
-    aspectRatio: 0.95,
-    alignItems: "center",
   },
-  titleImage: {
-    alignContent: "center",
+  camera: {
     width: "100%",
-    height: "100%",
+    aspectRatio: "3/4",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
-  headerText: {
+  text: {
     fontFamily: FONT.bold,
     fontSize: SIZES.xxLarge,
     color: COLORS.indigo,
