@@ -1,5 +1,8 @@
 {
   "expo": {
+    "name": "FindPill",
+    "slug": "FindPill",
+    "orientation": "portrait",
     "scheme": "acme",
     "web": {
       "bundler": "metro"
@@ -11,10 +14,16 @@
         {
           "cameraPermission": "$(PRODUCT_NAME)이 카메라를 사용하려고 합니다."
         }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "$(PRODUCT_NAME)이 사진에 접근하려고 합니다.",
+          "savePhotosPermission": "$(PRODUCT_NAME)이 사진을 저장하려고 합니다.",
+          "isAccessMediaLocationEnabled": true
+        }
       ]
     ],
-    "name": "FindPill",
-    "slug": "FindPill",
     "userInterfaceStyle": "automatic",
     "ios": {
       "userInterfaceStyle": "automatic"
