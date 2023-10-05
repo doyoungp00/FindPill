@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center", // Center vertically
     alignItems: "center", // Center horizontally
-
     backgroundColor: colorScheme === "dark" ? COLORS.gray2 : COLORS.lightWhite,
   }),
   logoContainer: {
     width: "25%",
     aspectRatio: 0.95,
     alignItems: "center",
+    marginTop: "20%",
   },
   titleImage: {
     alignContent: "center",

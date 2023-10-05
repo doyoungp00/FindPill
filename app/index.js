@@ -21,15 +21,9 @@ const Home = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-
-      {/* Main Menu */}
-      <ScrollView contentContainerStyle={styles.mainMenuContainer(colorScheme)}>
+    <ScrollView style={styles.mainMenuContainer}>
+      <Stack.Screen options={{ headerShown: false }} />
+      <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
         {/* Title logo and text */}
         <View style={styles.logoContainer}>
           <Image source={icons.title} style={styles.titleImage} />
@@ -58,8 +52,8 @@ const Home = () => {
             route="/settings"
           />
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 

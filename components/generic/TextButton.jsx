@@ -1,12 +1,16 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import styles from "./textbutton.styles";
 
-const GenericButton = ({ text, color, onPress }) => {
+const TextButton = ({ text, color, onPress, accessibilityLabel }) => {
   return (
-    <TouchableOpacity style={styles.container(color)} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.container(color)}
+      onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
+    >
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );
 };
 
-export default GenericButton;
+export default TextButton;

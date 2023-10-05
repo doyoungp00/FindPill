@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: (color) => ({
     alignItems: "center",
     width: "45%",
+    maxWidth: 200,
     aspectRatio: 1,
     padding: SIZES.medium,
     backgroundColor: color ? color : COLORS.primary,

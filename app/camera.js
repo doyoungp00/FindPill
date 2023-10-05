@@ -5,7 +5,7 @@ import * as FileSystem from "expo-file-system";
 import { Camera, CameraType } from "expo-camera";
 import { Stack, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { GenericButton } from "../components";
+import { TextButton } from "../components";
 import { withDecay } from "react-native-reanimated";
 import styles from "./camera.styles";
 import { IconButton } from "../components";
@@ -31,7 +31,7 @@ export default function Page() {
         <Text style={styles.text}>
           카메라를 사용하기 위해 권한이 필요합니다.
         </Text>
-        <GenericButton text={"권한 부여하기"} onPress={requestPermission} />
+        <TextButton text={"권한 부여하기"} onPress={requestPermission} />
       </View>
     );
   }
@@ -99,8 +99,9 @@ export default function Page() {
         <IconButton
           icon={icons.cameraswitch}
           onPress={toggleCameraType}
-          width="20%"
-          color={COLORS.gray2 + "c8"}
+          width="15%"
+          color={COLORS.gray2 + "e0"}
+          accessibilityLabel="카메라 전환"
         />
       </Camera>
       {/* Take picture button */}
@@ -110,6 +111,7 @@ export default function Page() {
           width="30%"
           color="transparent"
           onPress={takePicture}
+          accessibilityLabel="사진 촬영"
         />
       </View>
     </SafeAreaView>
