@@ -1,3 +1,4 @@
+// Import standard React components
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -8,10 +9,12 @@ import {
 } from "react-native";
 import { Stack, useRouter, useGlobalSearchParams } from "expo-router";
 import { Text, SafeAreaView } from "react-native";
-import axios from "axios";
 
+// Import custom styles and components
 import { COLORS, icons, SIZES } from "../../constants";
 import styles from "./results.styles";
+import { useFetch } from "../../data";
+import { ResultsList } from "../../components";
 
 const DisplayResults = () => {
   const params = useGlobalSearchParams(); // Get id (query) of this page
@@ -22,121 +25,16 @@ const DisplayResults = () => {
   const [searchError, setSearchError] = useState(null);
   const [page, setPage] = useState(1);
 
+  // Call hook using id of this page (query)
   const { data, isLoading, error, refetch } = useFetch(params.id);
-
-  const handleSearch = async () => {
-    setSearchLoader(true);
-    setSearchResult([]);
-
-    try {
-      const options = {
-        method: "GET",
-        url: `https://jsearch.p.rapidapi.com/search`,
-        headers: {
-          "X-RapidAPI-Key":
-            "fe19ed8f66mshb3672451dce6da9p188a80jsn1823148025b0",
-          "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
-        },
-        params: {
-          query: params.id,
-          page: page.toString(),
-        },
-      };
-
-      const response = await axios.request(options);
-      setSearchResult(response.data.data);
-    } catch (error) {
-      setSearchError(error);
-      console.log(error);
-    } finally {
-      setSearchLoader(false);
-    }
-  };
-
-  const handlePagination = (direction) => {
-    if (direction === "left" && page > 1) {
-      setPage(page - 1);
-      handleSearch();
-    } else if (direction === "right") {
-      setPage(page + 1);
-      handleSearch();
-    }
-  };
-
-  useEffect(() => {
-    handleSearch();
-  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <ScreenHeaderBtn
-              iconUrl={icons.left}
-              dimension="60%"
-              handlePress={() => router.back()}
-            />
-          ),
-          headerTitle: "",
-        }}
+        options={{ headerShadowVisible: false, title: "검색 결과" }}
       />
 
-      <FlatList
-        data={searchResult}
-        renderItem={({ item }) => (
-          <NearbyJobCard
-            job={item}
-            handleNavigate={() => router.push(`/job-details/${item.job_id}`)}
-          />
-        )}
-        keyExtractor={(item) => item.job_id}
-        contentContainerStyle={{ padding: SIZES.medium, rowGap: SIZES.medium }}
-        ListHeaderComponent={() => (
-          <>
-            <View style={styles.container}>
-              <Text style={styles.searchTitle}>{params.id}</Text>
-              <Text style={styles.noOfSearchedJobs}>Job Opportunities</Text>
-            </View>
-            <View style={styles.loaderContainer}>
-              {searchLoader ? (
-                <ActivityIndicator size="large" color={COLORS.primary} />
-              ) : (
-                searchError && <Text>Something went wrong.</Text>
-              )}
-            </View>
-          </>
-        )}
-        ListFooterComponent={() => (
-          <View style={styles.footerContainer}>
-            <TouchableOpacity
-              style={styles.paginationButton}
-              onPress={() => handlePagination("left")}
-            >
-              <Image
-                source={icons.chevronLeft}
-                style={styles.paginationImage}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <View style={styles.paginationTextBox}>
-              <Text style={styles.paginationText}>{page}</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.paginationButton}
-              onPress={() => handlePagination("right")}
-            >
-              <Image
-                source={icons.chevronRight}
-                style={styles.paginationImage}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+      <ResultsList data={data} isLoading={isLoading} error={error} />
     </SafeAreaView>
   );
 };

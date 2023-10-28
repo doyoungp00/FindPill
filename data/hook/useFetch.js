@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { parseString } from "react-native-xml2js";
 
 const useFetch = (query) => {
   const [data, setData] = useState([]);
@@ -24,11 +25,15 @@ const useFetch = (query) => {
 
     try {
       const response = await axios.request(options);
-      setData(response.data);
+
+      // Parse the XML data into a JavaScript object
+      const parsedData = await parseXmlData(response.data);
+
+      setData(parsedData); // Set the parsed data
       setIsLoading(false);
 
       // Log the data and status when data is successfully fetched
-      console.log("Fetched Data:", response.data);
+      console.log("Fetched Data:", parsedData);
       console.log("Loading Status:", isLoading);
     } catch (error) {
       setError(error);
@@ -52,6 +57,19 @@ const useFetch = (query) => {
   const refetch = () => {
     setIsLoading(true);
     fetchData();
+  };
+
+  // Parse XML data into a JavaScript object
+  const parseXmlData = (xmlData) => {
+    return new Promise((resolve, reject) => {
+      parseString(xmlData, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      });
+    });
   };
 
   return { data, isLoading, error, refetch };
