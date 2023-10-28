@@ -18,8 +18,6 @@ const useFetch = (query) => {
     },
   };
 
-  console.log(options.url);
-
   const fetchData = async () => {
     setIsLoading(true);
 
@@ -31,22 +29,14 @@ const useFetch = (query) => {
 
       setData(parsedData); // Set the parsed data
       setIsLoading(false);
-
-      // Log the data and status when data is successfully fetched
-      console.log("Fetched Data:", parsedData);
-      console.log("Loading Status:", isLoading);
     } catch (error) {
       setError(error);
       alert("결과를 불러오지 못했습니다.\n" + error);
 
       // Log the error and loading status when an error occurs
       console.error("Error:", error);
-      console.log("Loading Status:", isLoading);
     } finally {
       setIsLoading(false);
-
-      // Log the loading status after the fetching process is complete
-      console.log("Loading Status (Finally):", isLoading);
     }
   };
 

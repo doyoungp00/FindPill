@@ -29,12 +29,23 @@ const DisplayResults = () => {
   const { data, isLoading, error, refetch } = useFetch(params.id);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.lightWhite,
+        padding: SIZES.small,
+      }}
+    >
       <Stack.Screen
         options={{ headerShadowVisible: false, title: "검색 결과" }}
       />
 
-      <ResultsList data={data} isLoading={isLoading} error={error} />
+      <ResultsList
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        style={styles.container}
+      />
     </SafeAreaView>
   );
 };
