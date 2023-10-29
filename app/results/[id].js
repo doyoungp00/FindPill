@@ -1,12 +1,5 @@
 // Import standard React components
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import { Stack, useRouter, useGlobalSearchParams } from "expo-router";
 import { Text, SafeAreaView } from "react-native";
 
@@ -20,22 +13,11 @@ const DisplayResults = () => {
   const params = useGlobalSearchParams(); // Get id (query) of this page
   const router = useRouter();
 
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchLoader, setSearchLoader] = useState(false);
-  const [searchError, setSearchError] = useState(null);
-  const [page, setPage] = useState(1);
-
   // Call hook using id of this page (query)
   const { data, isLoading, error, refetch } = useFetch(params.id);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.lightWhite,
-        padding: SIZES.small,
-      }}
-    >
+    <SafeAreaView style={styles.container}>
       <Stack.Screen
         options={{ headerShadowVisible: false, title: "검색 결과" }}
       />
@@ -44,7 +26,7 @@ const DisplayResults = () => {
         data={data}
         isLoading={isLoading}
         error={error}
-        style={styles.container}
+        style={styles.list}
       />
     </SafeAreaView>
   );

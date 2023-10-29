@@ -1,7 +1,6 @@
 // Import standard React components
 import React from "react";
 import {
-  View,
   Text,
   FlatList,
   Image,
@@ -20,12 +19,14 @@ function removeHtmlTags(input) {
 }
 
 function ResultsList({ data, isLoading, error }) {
+  // Return loading indicator if data is still loading / is empty
   if (isLoading || !data || data.length === 0) {
     return <ActivityIndicator size="large" color={COLORS.primary} />;
   }
 
+  // Return in case of error
   if (error) {
-    return <Text>결과를 불러오지 못했습니다.</Text>;
+    return <Text style={styles.errorText}>결과를 불러오지 못했습니다.</Text>;
   }
 
   // Modify the item titles to remove HTML tags
@@ -37,6 +38,7 @@ function ResultsList({ data, isLoading, error }) {
   // console.log("Result Data:", JSON.stringify(data.rss.channel[0].item, null, 2));
 
   return (
+    // Create card list from API data, open browser on press
     <FlatList
       data={modifiedData}
       keyExtractor={(item) => item.link[0]}
@@ -46,6 +48,7 @@ function ResultsList({ data, isLoading, error }) {
           onPress={() => {
             Linking.openURL(item.link[0]);
           }}
+          accessibilityLabel={item.title[0]}
         >
           <Image source={{ uri: item.thumbnail[0] }} style={styles.thumbnail} />
           <Text style={styles.title}>{item.title[0]}</Text>
