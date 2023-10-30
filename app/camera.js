@@ -1,15 +1,32 @@
+// Import standard React components
 import { useState, useRef } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import * as MediaLibrary from "expo-media-library";
+import { View, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
-import { Camera, CameraType } from "expo-camera";
+import { Camera, CameraType, ImageType } from "expo-camera";
 import { Stack, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TextButton } from "../components";
-import { withDecay } from "react-native-reanimated";
+import uuid from "react-native-uuid";
+import { app, storage } from "../firebaseConfig";
+import { decode } from "base-64";
+
+if (typeof global.atob === "undefined") {
+  global.atob = (a) => Buffer.from(a, "base64").toString("binary");
+}
+
+// Import custom styles and components
 import styles from "./camera.styles";
+import { TextButton } from "../components";
 import { IconButton } from "../components";
 import { COLORS, icons } from "../constants";
+
+// Import firebase storage and RTDB
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytes,
+  uploadString,
+} from "firebase/storage";
 
 export default function Page() {
   const router = useRouter();
@@ -18,6 +35,10 @@ export default function Page() {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef(null);
+
+  // UUID setup
+  const [UUID, setUUID] = useState(uuid.v4());
+  storage;
 
   if (!permission) {
     // Camera permissions are still loading
@@ -55,31 +76,78 @@ export default function Page() {
     return `${year}${month}${day}_${hours}${minutes}${seconds}`;
   }
 
+  // Function to create a File object from a local image file URI
+  async function createFileObjectFromURI(uri) {
+    try {
+      // Fetch the file using the URI
+      const response = await fetch(uri);
+
+      // Get the blob data from the response
+      const blob = await response.blob();
+
+      // Extract the filename from the URI
+      const filename = uri.substring(uri.lastIndexOf("/") + 1);
+
+      // Create a new File object
+      const file = new File([blob], filename, { type: blob.type });
+
+      return file;
+    } catch (error) {
+      console.error("Error creating File object:", error);
+      return null;
+    }
+  }
+
   // Function to take a picture and save it with a formatted filename
   async function takePicture() {
     if (cameraRef.current) {
       try {
-        const { uri } = await cameraRef.current.takePictureAsync();
-        console.log("Picture taken. URI:", uri);
+        // Take and save picture
+        const picture = await cameraRef.current.takePictureAsync();
 
-        // Generate a formatted timestamp
-        const timestamp = getFormattedTimestamp();
+        // Get uri and filename of the picture
+        const { uri } = picture;
 
-        // Create the filename with the timestamp
-        const filename = `FindPill_${timestamp}.png`;
+        // Create a reference to Firebase Storage with the specified path
+        const storageRef = ref(
+          getStorage(),
+          `camera_image/${UUID}/FindPill_${getFormattedTimestamp()}.jpg`
+        );
 
-        // Rename temp photo
-        const finalUri = `${FileSystem.documentDirectory}/Pictures/FindPill/${filename}`;
-        await FileSystem.moveAsync({
-          from: uri,
-          to: finalUri,
-        });
+        // Set content type
+        const metadata = {
+          contentType: "image/jpeg",
+        };
 
-        // Save the picture to the pictures folder with the specified filename
-        const asset = await MediaLibrary.createAssetAsync(finalUri, filename);
-        console.log("Picture saved to media library. Asset:", asset);
+        // Create File object from uri
+        createFileObjectFromURI(uri)
+          .then((file) => {
+            if (file) {
+              // Upload the File object to Firebase Storage
+              uploadBytes(storageRef, file, metadata)
+                .then((snapshot) => {
+                  // Handle the upload completion here
+
+                  // Get the download URL of the uploaded file
+                  return getDownloadURL(storageRef);
+                })
+                .then((downloadURL) => {
+                  console.log("Picture uploaded. URL:", downloadURL);
+                })
+                .then(() => {
+                  // Delete local copy of the image
+                  FileSystem.deleteAsync(uri);
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } catch (error) {
-        console.error("Error taking or saving the picture:", error);
+        console.error(error);
       }
     }
   }

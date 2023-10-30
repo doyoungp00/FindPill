@@ -50,7 +50,13 @@ function ResultsList({ data, isLoading, error }) {
           }}
           accessibilityLabel={item.title[0]}
         >
-          <Image source={{ uri: item.thumbnail[0] }} style={styles.thumbnail} />
+          {item.thumbnail[0] ? (
+            <Image
+              source={{ uri: item.thumbnail[0] }}
+              style={styles.thumbnail}
+            />
+          ) : null}
+
           <Text style={styles.title}>{item.title[0]}</Text>
           <Text style={styles.description}>{item.description[0]}</Text>
           {/* Add other card details here */}

@@ -1,3 +1,4 @@
+// Import standard React components
 import {
   View,
   Text,
@@ -10,15 +11,20 @@ import {
 import { useState } from "react";
 import { Stack, useRouter } from "expo-router";
 
+// Import custom styles and components
+import styles from "./index.styles";
 import { COLORS, icons, SIZES } from "../constants";
 import { MainMenuButton } from "../components";
-import styles from "./index.styles";
+import { app } from "../firebaseConfig";
 
 const Home = () => {
   const router = useRouter();
 
   // Detect dark mode
   const colorScheme = useColorScheme();
+
+  // Ensure Firebase is loaded
+  app;
 
   return (
     <ScrollView style={styles.mainMenuContainer}>
