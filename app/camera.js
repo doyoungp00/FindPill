@@ -1,12 +1,11 @@
 // Import standard React components
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { View, Text } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Camera, CameraType, ImageType } from "expo-camera";
 import { Stack, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import uuid from "react-native-uuid";
-import { app, storage } from "../firebaseConfig";
 import { decode } from "base-64";
 
 if (typeof global.atob === "undefined") {
@@ -19,14 +18,10 @@ import { TextButton } from "../components";
 import { IconButton } from "../components";
 import { COLORS, icons } from "../constants";
 
-// Import firebase storage and RTDB
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytes,
-  uploadString,
-} from "firebase/storage";
+// Import Firebase storage components
+import { app, storage } from "../firebaseConfig";
+import { getStorage, ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getDatabase, ref as rtdbRef, set } from "firebase/database";
 
 export default function Page() {
   const router = useRouter();
@@ -38,7 +33,9 @@ export default function Page() {
 
   // UUID setup
   const [UUID, setUUID] = useState(uuid.v4());
-  storage;
+
+  // Image urls
+  const [downloadURLs, setDownloadURLs] = useState([]);
 
   if (!permission) {
     // Camera permissions are still loading
@@ -126,13 +123,14 @@ export default function Page() {
               // Upload the File object to Firebase Storage
               uploadBytes(storageRef, file, metadata)
                 .then((snapshot) => {
-                  // Handle the upload completion here
-
                   // Get the download URL of the uploaded file
                   return getDownloadURL(storageRef);
                 })
                 .then((downloadURL) => {
                   console.log("Picture uploaded. URL:", downloadURL);
+
+                  // Update the downloadURLs state, add new url to array
+                  setDownloadURLs((prevURLs) => [...prevURLs, downloadURL]);
                 })
                 .then(() => {
                   // Delete local copy of the image
@@ -152,12 +150,29 @@ export default function Page() {
     }
   }
 
+  // Function to upload image URLs to Realtime Database
+  async function submitPictures() {
+    // Update the Realtime Database node with the download URLs
+    set(rtdbRef(getDatabase(), `requests/${UUID}`), {
+      images: downloadURLs,
+    });
+
+    console.log("Pictures submitted to Realtime Database");
+
+    // Clear downloadURLs array after submitting
+    setDownloadURLs([]);
+
+    // Open new page with UUID
+    router.push(`/analysis/${UUID}`);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header settings */}
       <Stack.Screen
         options={{
           headerShadowVisible: false,
+
           title: "카메라 촬영",
         }}
       />
@@ -180,6 +195,14 @@ export default function Page() {
           color="transparent"
           onPress={takePicture}
           accessibilityLabel="사진 촬영"
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TextButton
+          accessibilityLabel="사진 제출"
+          onPress={submitPictures}
+          text="사진 제출"
         />
       </View>
     </SafeAreaView>

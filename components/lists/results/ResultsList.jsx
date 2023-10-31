@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 // Import custom styles and components
-import { COLORS } from "../../constants";
+import { COLORS } from "../../../constants";
 import styles from "./resultslist.styles";
 
 // Regex for removing HTML tags from string
@@ -33,6 +33,7 @@ function ResultsList({ data, isLoading, error }) {
   const modifiedData = data.rss.channel[0].item.map((item) => ({
     ...item,
     title: [removeHtmlTags(item.title[0])],
+    description: [removeHtmlTags(item.description[0])],
   }));
 
   // console.log("Result Data:", JSON.stringify(data.rss.channel[0].item, null, 2));

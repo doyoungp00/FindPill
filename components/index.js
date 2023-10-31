@@ -6,6 +6,6 @@ import TextButton from "./generic/TextButton";
 import IconButton from "./generic/IconButton";
 
 // Results List
-import ResultsList from "./results/ResultsList";
+import ResultsList from "./lists/results/ResultsList";
 
 export { MainMenuButton, TextButton, IconButton, ResultsList };
