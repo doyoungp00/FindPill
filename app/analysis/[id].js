@@ -15,19 +15,31 @@ const DisplayAnalysis = () => {
   const UUID = useGlobalSearchParams(); // Get id (uuid) of this page
   const router = useRouter();
   const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
   // Subscribe on load, unsubscribe on discard
   useEffect(() => {
-    const resultsRef = ref(getDatabase(), `requests/${UUID.id}/results`);
+    const resultsRef = ref(getDatabase(), `requests/${UUID.id}/result`);
 
     // Subscribe to results node under given UUID
+    // Triggered if analysis results are inserted into node
     const unsubscribe = onValue(resultsRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        // Assuming data is an array of results
-        if (Array.isArray(data)) {
-          setResults(data);
+
+        if (data && typeof data === "object") {
+          // Convert object into array
+          const resultArray = Object.entries(data).map(([key, value]) => ({
+            key,
+            description: value.description,
+            imageUrl: value.imageUrl,
+          }));
+          setResults(resultArray);
+          setIsLoading(false); // Loading done
         }
+      } else {
+        setResults([]);
+        setIsLoading(true);
       }
     });
 
@@ -44,11 +56,11 @@ const DisplayAnalysis = () => {
       />
       <FlatList
         data={results}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <View style={styles.resultItem}>
             <Image source={{ uri: item.imageUrl }} style={styles.resultImage} />
-            <Text style={styles.resultTitle}>{item.title}</Text>
+            <Text style={styles.resultTitle}>{item.key}</Text>
             <Text style={styles.resultDescription}>{item.description}</Text>
           </View>
         )}

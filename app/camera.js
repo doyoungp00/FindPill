@@ -172,7 +172,6 @@ export default function Page() {
       <Stack.Screen
         options={{
           headerShadowVisible: false,
-
           title: "카메라 촬영",
         }}
       />
