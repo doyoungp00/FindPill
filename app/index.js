@@ -40,17 +40,24 @@ const Home = () => {
         <View style={styles.buttonContainer}>
           <MainMenuButton
             text={"카메라 촬영"}
+            color={COLORS.secondary}
             icon={icons.camera}
             route="/camera"
           />
           <MainMenuButton
             text={"디바이스 촬영"}
+            color={COLORS.secondary}
             icon={icons.device}
             route="/device"
           />
         </View>
         <View style={styles.buttonContainer}>
-          <MainMenuButton text={"검색"} icon={icons.search} route="/search" />
+          <MainMenuButton
+            text={"검색"}
+            color={COLORS.secondary}
+            icon={icons.search}
+            route="/search"
+          />
           <MainMenuButton
             text={"설정"}
             color={COLORS.buttonSecondary}

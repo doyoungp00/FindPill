@@ -202,6 +202,7 @@ export default function Page() {
           accessibilityLabel="사진 제출"
           onPress={submitPictures}
           text="사진 제출"
+          color={COLORS.emphasis}
         />
       </View>
     </SafeAreaView>

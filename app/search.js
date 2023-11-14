@@ -11,7 +11,7 @@ import { Stack, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextButton, IconButton } from "../components";
 import styles from "./search.styles";
-import { icons } from "../constants";
+import { icons, COLORS } from "../constants";
 import ResultsList from "../components";
 
 export default function Page() {
@@ -34,6 +34,7 @@ export default function Page() {
           <IconButton
             icon={icons.search}
             accessibilityLabel="검색 시작"
+            color={COLORS.emphasis}
             width={60}
             onPress={() => router.push(`/results/${query}`)} // Initiate the search on a new page
           />

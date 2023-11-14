@@ -2,27 +2,23 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { parseString } from "react-native-xml2js";
 
-const useFetch = (query) => {
+const useFetch = (page, query) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const options = {
-    method: "GET",
-    url: `https://openapi.naver.com/v1/search/encyc.xml?query=${encodeURIComponent(
-      query.toString()
-    )}`,
-    headers: {
-      "X-Naver-Client-Id": process.env.EXPO_PUBLIC_NAVER_API_ID,
-      "X-Naver-Client-Secret": process.env.EXPO_PUBLIC_NAVER_API_SECRET,
-    },
-  };
 
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.request(options);
+      const response = await axios.request({
+        method: "GET",
+        url: process.env.EXPO_PUBLIC_BACKEND + page,
+        params:
+          page == "/getItemList" ? { itemName: query } : { itemNumber: query },
+      });
+
+      console.log(JSON.stringify(response, null, 2));
 
       // Parse the XML data into a JavaScript object
       const parsedData = await parseXmlData(response.data);
