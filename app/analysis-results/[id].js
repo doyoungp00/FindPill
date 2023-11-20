@@ -4,12 +4,12 @@ import { Stack, useRouter, useGlobalSearchParams } from "expo-router";
 import { Text, SafeAreaView, FlatList } from "react-native";
 
 // Import custom styles and components
-import styles from "./analysis.styles";
+import styles from "./analysis-results.styles";
 import { COLORS, icons, SIZES } from "../../constants";
 import { ResultsList } from "../../components";
 
 // Import Firebase components
-import { ref, onValue, getDatabase } from "firebase/database";
+import { ref, getDatabase, onChildAdded } from "firebase/database";
 
 const DisplayAnalysis = () => {
   const UUID = useGlobalSearchParams(); // Get id (uuid) of this page
@@ -23,11 +23,11 @@ const DisplayAnalysis = () => {
 
     // Subscribe to results node under given UUID
     // Triggered if analysis results are inserted into node
-    const unsubscribe = onValue(resultsRef, (snapshot) => {
+    const unsubscribe = onChildAdded(resultsRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
 
-        if (data && typeof data === "object") {
+        if (data && typeof data == "object") {
           // Convert object into array
           const resultArray = Object.entries(data).map(([key, value]) => ({
             key,

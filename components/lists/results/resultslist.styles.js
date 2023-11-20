@@ -1,7 +1,7 @@
 import { COLORS, FONT, SHADOWS, SIZES } from "../../../constants";
 import { StyleSheet } from "react-native";
 
-const styles = {
+const styles = StyleSheet.create({
   errorText: {
     color: COLORS.secondary,
     textAlign: "center",
@@ -30,7 +30,8 @@ const styles = {
     marginHorizontal: SIZES.large,
     marginBottom: SIZES.medium,
     color: COLORS.white,
+    lineHeight: SIZES.large,
   },
-};
+});
 
 export default styles;

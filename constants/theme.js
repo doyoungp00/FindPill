@@ -1,6 +1,6 @@
 const COLORS = {
-  primary: "#C1C0C8", // Gray
-  secondary: "#CC9CDF", // Purple
+  primary: "#CC9CDF", // Purple
+  secondary: "#C1C0C8", // Gray
   tertiary: "#652D87", // Deep Purple
 
   gray: "#83829A",

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { parseString } from "react-native-xml2js";
 
 const useFetch = (page, query) => {
   const [data, setData] = useState([]);
@@ -14,16 +13,16 @@ const useFetch = (page, query) => {
       const response = await axios.request({
         method: "GET",
         url: process.env.EXPO_PUBLIC_BACKEND + page,
+
+        // 'itemName'   parameter for 'getItemList'   page
+        // 'itemNumber' parameter for 'getItemDetail' page
         params:
           page == "/getItemList" ? { itemName: query } : { itemNumber: query },
       });
 
-      console.log(JSON.stringify(response, null, 2));
+      // console.log(JSON.stringify(response, null, 2));
 
-      // Parse the XML data into a JavaScript object
-      const parsedData = await parseXmlData(response.data);
-
-      setData(parsedData); // Set the parsed data
+      setData(response.data); // Set the parsed data
       setIsLoading(false);
     } catch (error) {
       setError(error);
@@ -43,19 +42,6 @@ const useFetch = (page, query) => {
   const refetch = () => {
     setIsLoading(true);
     fetchData();
-  };
-
-  // Parse XML data into a JavaScript object
-  const parseXmlData = (xmlData) => {
-    return new Promise((resolve, reject) => {
-      parseString(xmlData, (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
-      });
-    });
   };
 
   return { data, isLoading, error, refetch };

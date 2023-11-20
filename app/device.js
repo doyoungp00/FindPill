@@ -51,7 +51,7 @@ export default function Page() {
     let arr = String(scanningResult.data).split(":");
     if (arr.length < 3 || arr[0] != "FindPill" || arr[1] != "device") return;
 
-    router.push(`analysis/${arr[1] + arr[2]}`);
+    router.push(`/analysis-results/${arr[2]}`);
   }
 
   return (
