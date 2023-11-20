@@ -54,7 +54,7 @@ const DisplayDetails = () => {
     return (
       <View style={styles.listContainer}>
         <Text style={styles.listTitle}>{`${title}`}</Text>
-        <Text style={styles.listDesc}>{`${desc}`}</Text>
+        <Text style={styles.listDesc}>{`${desc.toString().trim()}`}</Text>
       </View>
     );
   };
@@ -70,11 +70,12 @@ const DisplayDetails = () => {
         {/* Display Text Information */}
         {renderListItem("품목명", data.품목명)}
         {renderListItem("업체명", data.업체명)}
-        {renderListItem("전문일반", data.전문일반)}
+        {renderListItem("의약품제형", data.의약품제형)}
         {renderListItem("성상", data.성상)}
         {renderListItem("용법용량", data.용법용량)}
         {renderListItem("저장방법", data.저장방법)}
         {renderListItem("유효기간", data.유효기간)}
+        {renderListItem("전문일반", data.전문일반)}
 
         {/* View for bottom margin */}
         <View style={{ height: SIZES.xxLarge }}></View>
