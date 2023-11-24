@@ -29,6 +29,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: SIZES.large,
   },
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  uploadText: {
+    marginTop: SIZES.large,
+    color: COLORS.lightWhite,
+    fontSize: SIZES.large,
+  },
 });
 
 export default styles;

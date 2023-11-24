@@ -1,6 +1,6 @@
 // Import standard React components
 import { useState, useRef, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Modal, ActivityIndicator } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Camera, CameraType, ImageType } from "expo-camera";
 import { Stack, useRouter } from "expo-router";
@@ -30,6 +30,8 @@ export default function Page() {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const cameraRef = useRef(null);
+  // Picture uploading state
+  const [isUploading, setIsUploading] = useState(false);
 
   // UUID setup
   const [UUID, setUUID] = useState(uuid.v4());
@@ -97,8 +99,11 @@ export default function Page() {
 
   // Function to take a picture and save it with a formatted filename
   async function takePicture() {
-    if (cameraRef.current) {
+    if (cameraRef.current && !isUploading) {
       try {
+        // Block user interaction
+        setIsUploading(true);
+
         // Take and save picture
         const picture = await cameraRef.current.takePictureAsync();
 
@@ -135,6 +140,9 @@ export default function Page() {
                 .then(() => {
                   // Delete local copy of the image
                   FileSystem.deleteAsync(uri);
+
+                  // Unblock user input
+                  setIsUploading(false);
                 })
                 .catch((error) => {
                   console.error(error);
@@ -209,6 +217,14 @@ export default function Page() {
           color={COLORS.emphasis}
         />
       </View>
+
+      {/* Loading overlay */}
+      <Modal transparent={true} animationType="slide" visible={isUploading}>
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color={COLORS.emphasis} />
+          <Text style={styles.uploadText}>업로드 중입니다...</Text>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
