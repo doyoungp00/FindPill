@@ -4,11 +4,12 @@ import { COLORS, FONT, SHADOWS, SIZES } from "../constants";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
     alignItems: "center", // Center horizontally
   },
   camera: {
     width: "100%",
-    aspectRatio: "3/4",
+    aspectRatio: "1/1",
     alignItems: "flex-end",
     justifyContent: "flex-end",
   },
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     alignItems: "center",
+    marginBottom: SIZES.large,
   },
 });
 

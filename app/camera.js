@@ -176,7 +176,7 @@ export default function Page() {
         }}
       />
       {/* Camera */}
-      <Camera style={styles.camera} type={type} ref={cameraRef}>
+      <Camera style={styles.camera} type={type} ref={cameraRef} ratio="1:1">
         {/* Camera switch button */}
         <IconButton
           icon={icons.cameraswitch}
@@ -186,6 +186,10 @@ export default function Page() {
           accessibilityLabel="카메라 전환"
         />
       </Camera>
+
+      {/* Spacing between camera view and buttons */}
+      <View style={{ flex: 1 }} />
+
       {/* Take picture button */}
       <View style={styles.buttonContainer}>
         <IconButton

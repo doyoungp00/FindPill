@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingLeft: SIZES.medium,
+    paddingRight: SIZES.medium,
   },
   listTitle: {
     paddingTop: SIZES.large,

@@ -48,6 +48,11 @@ const DisplayDetails = () => {
       // Do not render anything if the description is missing or empty
       if (!desc) return null;
 
+      desc = desc.toString().trim();
+      if (desc.startsWith("효능효과") || desc.startsWith("용법용량"))
+        desc = desc.substring(4);
+      if (desc.startsWith("사용상의주의사항")) desc = desc.substring(8);
+
       return (
         <View style={styles.listContainer}>
           <Text style={styles.listTitle}>{`${title}`}</Text>
@@ -72,10 +77,13 @@ const DisplayDetails = () => {
           {renderListItem("업체명", details.업체명)}
           {renderListItem("의약품제형", details.의약품제형)}
           {renderListItem("성상", details.성상)}
+          {renderListItem("효능효과", details.효능효과)}
           {renderListItem("용법용량", details.용법용량)}
           {renderListItem("저장방법", details.저장방법)}
           {renderListItem("유효기간", details.유효기간)}
           {renderListItem("전문일반", details.전문일반)}
+          {renderListItem("원료성분", details.원료성분)}
+          {renderListItem("주의사항", details.주의사항)}
 
           {/* View for bottom margin */}
           <View style={{ height: SIZES.xxLarge }}></View>
