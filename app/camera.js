@@ -163,7 +163,7 @@ export default function Page() {
     setDownloadURLs([]);
 
     // Open new page with UUID
-    router.push(`/analysis/${UUID}`);
+    router.push(`/analysis-results/${UUID}`);
   }
 
   return (
