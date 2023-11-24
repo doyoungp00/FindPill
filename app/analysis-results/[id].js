@@ -17,6 +17,8 @@ const DisplayAnalysis = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Loading state
 
+  const dataArray = []; // Temporary analysis result collection array
+
   // Subscribe on load, unsubscribe on discard
   useEffect(() => {
     const resultsRef = ref(getDatabase(), `requests/${UUID.id}/results`);
@@ -25,24 +27,18 @@ const DisplayAnalysis = () => {
     // Triggered if analysis results are inserted into node
     const unsubscribe = onChildAdded(resultsRef, (snapshot) => {
       if (snapshot.exists()) {
-        const data = snapshot.val();
+        const val = snapshot.val();
 
-        if (data && typeof data == "object") {
-          // Convert object into array
-          const resultArray = Object.entries(data).map(([key, value]) => ({
-            key,
-            품목일련번호: value.품목일련번호,
-            큰제품이미지: value.큰제품이미지,
-            품목명: value.품목명,
-            업체명: value.업체명,
-            성상: value.성상,
-            의약품제형: value.의약품제형,
-          }));
-          setData(resultArray);
+        if (val && typeof val === "object") {
+          dataArray.push(val); // Append the new child data to the array
+          setData([...dataArray]); // Update the state with the entire array
           setIsLoading(false); // Loading done
 
+          console.log("Received Data:");
+          console.log(JSON.stringify(val, null, 2));
+
           // Session over, cleanup this node
-          remove(ref(getDatabase()), `requests/${UUID.id}/results`);
+          // remove(ref(getDatabase(), `requests/${UUID.id}`));
         }
       } else {
         setData([]);

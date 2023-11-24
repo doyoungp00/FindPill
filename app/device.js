@@ -49,6 +49,9 @@ export default function Page() {
   function readQR(scanningResult) {
     console.log("Read QR code value " + scanningResult.data);
     let arr = String(scanningResult.data).split(":");
+
+    // FindPill devices are supposed to have a QR code with the format:
+    // "FindPill:device:${UUID}"
     if (arr.length < 3 || arr[0] != "FindPill" || arr[1] != "device") return;
 
     router.push(`/analysis-results/${arr[2]}`);

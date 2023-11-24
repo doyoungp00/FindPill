@@ -29,7 +29,9 @@ export default function Page() {
           <TextInput
             onChangeText={(text) => updateQuery(text.toString())} // Update query text
             placeholder="찾고 싶은 알약 이름을 이곳에 입력하세요"
-            onSubmitEditing={() => router.push(`/search-results/${query}`)} // Initiate the search on a new page
+            onSubmitEditing={() =>
+              router.push(`/search-results/${query.toString().trim()}`)
+            } // Initiate the search on a new page
             style={styles.input}
           />
           <IconButton
@@ -37,7 +39,9 @@ export default function Page() {
             accessibilityLabel="검색 시작"
             color={COLORS.primary}
             width={60}
-            onPress={() => router.push(`/search-results/${query}`)} // Initiate the search on a new page
+            onPress={() =>
+              router.push(`/search-results/${query.toString().trim()}`)
+            } // Initiate the search on a new page
           />
         </View>
       </SafeAreaView>

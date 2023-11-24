@@ -24,6 +24,9 @@ function ResultsList({ data, isLoading, error }) {
     return <Text style={styles.errorText}>결과를 불러오지 못했습니다.</Text>;
   }
 
+  // console.log("ResultList data:");
+  // console.log(JSON.stringify(data, null, 2));
+
   return (
     // Create card list from API data, open browser on press
     <FlatList
