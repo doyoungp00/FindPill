@@ -38,7 +38,7 @@ function ResultsList({ data, isLoading, error }) {
           accessibilityLabel={`${item.품목명 || ""} 
           ${item.업체명 ? `업체명: ${item.업체명}. ` : ""} 
           ${item.성상 ? `성상: ${item.성상}. ` : ""} 
-          ${item.의약품제형 ? `의약품제형: ${item.의약품제형}.` : ""}`}
+          ${item.의약품제형 ? `의약품제형: ${item.의약품제형}. ` : ""}`}
         >
           {item.큰제품이미지 ? (
             <Image

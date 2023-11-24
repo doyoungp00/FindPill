@@ -14,12 +14,12 @@ import { ref, getDatabase, onChildAdded } from "firebase/database";
 const DisplayAnalysis = () => {
   const UUID = useGlobalSearchParams(); // Get id (uuid) of this page
   const router = useRouter();
-  const [results, setResults] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Loading state
 
   // Subscribe on load, unsubscribe on discard
   useEffect(() => {
-    const resultsRef = ref(getDatabase(), `requests/${UUID.id}/result`);
+    const resultsRef = ref(getDatabase(), `requests/${UUID.id}/results`);
 
     // Subscribe to results node under given UUID
     // Triggered if analysis results are inserted into node
@@ -31,14 +31,21 @@ const DisplayAnalysis = () => {
           // Convert object into array
           const resultArray = Object.entries(data).map(([key, value]) => ({
             key,
-            description: value.description,
-            imageUrl: value.imageUrl,
+            품목일련번호: value.품목일련번호,
+            큰제품이미지: value.큰제품이미지,
+            품목명: value.품목명,
+            업체명: value.업체명,
+            성상: value.성상,
+            의약품제형: value.의약품제형,
           }));
-          setResults(resultArray);
+          setData(resultArray);
           setIsLoading(false); // Loading done
+
+          // Session over, cleanup this node
+          remove(ref(getDatabase()), `requests/${UUID.id}/results`);
         }
       } else {
-        setResults([]);
+        setData([]);
         setIsLoading(true);
       }
     });
@@ -54,16 +61,11 @@ const DisplayAnalysis = () => {
       <Stack.Screen
         options={{ headerShadowVisible: false, title: "식별 결과" }}
       />
-      <FlatList
-        data={results}
-        keyExtractor={(item) => item.key}
-        renderItem={({ item }) => (
-          <View style={styles.resultItem}>
-            <Image source={{ uri: item.imageUrl }} style={styles.resultImage} />
-            <Text style={styles.resultTitle}>{item.key}</Text>
-            <Text style={styles.resultDescription}>{item.description}</Text>
-          </View>
-        )}
+      <ResultsList
+        data={data}
+        isLoading={isLoading}
+        error={null}
+        style={styles.list}
       />
     </SafeAreaView>
   );
