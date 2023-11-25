@@ -63,7 +63,7 @@ export default function Page() {
       <Stack.Screen
         options={{
           headerShadowVisible: false,
-          title: "카메라 촬영",
+          title: "디바이스 QR코드 스캔",
         }}
       />
       {/* Camera */}

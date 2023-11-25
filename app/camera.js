@@ -184,7 +184,13 @@ export default function Page() {
         }}
       />
       {/* Camera */}
-      <Camera style={styles.camera} type={type} ref={cameraRef} ratio="1:1">
+      <Camera
+        style={styles.camera}
+        type={type}
+        ref={cameraRef}
+        ratio="1:1"
+        zoom={0.35}
+      >
         {/* Camera switch button */}
         <IconButton
           icon={icons.cameraswitch}

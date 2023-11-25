@@ -2,6 +2,7 @@
   "expo": {
     "name": "FindPill",
     "slug": "FindPill",
+    "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "acme",
     "web": {
@@ -26,10 +27,30 @@
     ],
     "userInterfaceStyle": "automatic",
     "ios": {
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME)이 사진에 접근하려고 합니다.",
+        "NSPhotoLibraryAddUsageDescription": "$(PRODUCT_NAME)이 사진을 저장하려고 합니다."
+      }
     },
     "android": {
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "package": "com.doyoung.FindPill",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION"
+      ]
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "5ec53345-4fe2-46c7-b770-49f8f3c074b5"
+      }
     }
   }
 }

@@ -168,3 +168,4 @@ npm-debug.*
 *.orig.*
 web-build/
 .env
+eas.json
