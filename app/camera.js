@@ -47,7 +47,7 @@ export default function Page() {
   if (!permission.granted) {
     // Camera permissions are not granted yet
     return (
-      <View style={styles.container}>
+      <View>
         <Text style={styles.text}>
           카메라를 사용하기 위해 권한이 필요합니다.
         </Text>

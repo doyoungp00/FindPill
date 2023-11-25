@@ -169,3 +169,4 @@ npm-debug.*
 web-build/
 .env
 eas.json
+.fuse_hidden*

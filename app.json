@@ -31,11 +31,12 @@
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "$(PRODUCT_NAME)이 사진에 접근하려고 합니다.",
         "NSPhotoLibraryAddUsageDescription": "$(PRODUCT_NAME)이 사진을 저장하려고 합니다."
-      }
+      },
+      "bundleIdentifier": "com.doyoung.findpill"
     },
     "android": {
       "userInterfaceStyle": "automatic",
-      "package": "com.doyoung.FindPill",
+      "package": "com.doyoung.findpill",
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
