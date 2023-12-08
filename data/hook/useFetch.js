@@ -1,38 +1,35 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const useFetch = (query) => {
+const useFetch = (page, query) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  // Drug info API URL
-  var url =
-    "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList";
-  // Add API service key
-  var serviceKey =
-    "7LPlJZysFfUjfUK8PlftpGEKPZ1sxGwHOO9acbYA4MO%2FL6Z61cqKGMpSp3depPEJFI9D58Ard1RRCnVMf5%2BCjg%3D%3D";
-  url += "?serviceKey=" + serviceKey;
-  // Set result item count to 10
-  url += encodeURIComponent("&numOfRows=10");
-  // Add search params
-  url += encodeURIComponent("&itemName=" + query);
-
-  const options = {
-    method: "GET",
-    url: url,
-  };
 
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.request(options);
-      setData(response.data.data);
+      const response = await axios.request({
+        method: "GET",
+        url: process.env.EXPO_PUBLIC_BACKEND + page,
+
+        // 'itemName'   parameter for 'getItemList'   page
+        // 'itemNumber' parameter for 'getItemDetail' page
+        params:
+          page == "/getItemList" ? { itemName: query } : { itemNumber: query },
+      });
+
+      // console.log(JSON.stringify(response, null, 2));
+
+      setData(response.data); // Set the parsed data
       setIsLoading(false);
     } catch (error) {
       setError(error);
-      alert("Something went wrong.\n" + error);
+      alert("결과를 불러오지 못했습니다.\n" + error);
+
+      // Log the error and loading status when an error occurs
+      console.error("Error:", error);
     } finally {
       setIsLoading(false);
     }

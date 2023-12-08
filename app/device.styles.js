@@ -6,6 +6,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center", // Center horizontally
   },
+  camera: {
+    width: "100%",
+    aspectRatio: "3/4",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+  },
   text: {
     fontFamily: FONT.bold,
     fontSize: SIZES.xxLarge,
@@ -14,21 +20,12 @@ const styles = StyleSheet.create({
     paddingBottom: SIZES.large,
     marginBottom: SIZES.large,
   },
-  gradientButton: {
-    alignItems: "center",
+  buttonContainer: {
+    width: "100%",
     justifyContent: "center",
-    width: "80%",
-    padding: SIZES.small,
-    borderRadius: SIZES.medium,
-    ...SHADOWS.medium,
-    shadowColor: COLORS.white,
-    margin: SIZES.small,
-  },
-  buttonText: {
-    fontFamily: FONT.medium,
-    fontSize: SIZES.large,
-    textAlign: "center",
-    color: COLORS.lightWhite,
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
   },
 });
 

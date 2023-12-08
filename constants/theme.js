@@ -1,7 +1,7 @@
 const COLORS = {
-  primary: "#CC9CDF",
-  secondary: "#EA428B",
-  tertiary: "#652D87",
+  primary: "#CC9CDF", // Purple
+  secondary: "#C1C0C8", // Gray
+  tertiary: "#652D87", // Deep Purple
 
   gray: "#83829A",
   gray2: "#C1C0C8",
@@ -9,6 +9,8 @@ const COLORS = {
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
   indigo: "#243870",
+
+  emphasis: "#EA428B",
 
   buttonSecondary: "#484777",
 };

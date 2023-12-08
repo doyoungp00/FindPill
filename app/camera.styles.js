@@ -4,11 +4,12 @@ import { COLORS, FONT, SHADOWS, SIZES } from "../constants";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
     alignItems: "center", // Center horizontally
   },
   camera: {
     width: "100%",
-    aspectRatio: "3/4",
+    aspectRatio: "1/1",
     alignItems: "flex-end",
     justifyContent: "flex-end",
   },
@@ -24,9 +25,20 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     flexDirection: "row",
-    padding: SIZES.medium,
     alignContent: "center",
     alignItems: "center",
+    marginBottom: SIZES.large,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  uploadText: {
+    marginTop: SIZES.large,
+    color: COLORS.lightWhite,
+    fontSize: SIZES.large,
   },
 });
 

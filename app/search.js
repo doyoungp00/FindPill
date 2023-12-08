@@ -6,15 +6,19 @@ import {
   ScrollView,
 } from "react-native";
 import { useState } from "react";
+import useFetch from "../data/hook/useFetch";
 import { Stack, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextButton, IconButton } from "../components";
 import styles from "./search.styles";
-import { icons } from "../constants";
+import { icons, COLORS } from "../constants";
+import ResultsList from "../components";
 
 export default function Page() {
   const router = useRouter();
-  const [text, onChangeText] = useState("");
+
+  // Search field text
+  const [query, updateQuery] = useState("");
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -23,14 +27,21 @@ export default function Page() {
         {/* Search input group */}
         <View style={{ flexDirection: "row" }}>
           <TextInput
-            onChangeText={onChangeText}
+            onChangeText={(text) => updateQuery(text.toString())} // Update query text
             placeholder="찾고 싶은 알약 이름을 이곳에 입력하세요"
+            onSubmitEditing={() =>
+              router.push(`/search-results/${query.toString().trim()}`)
+            } // Initiate the search on a new page
             style={styles.input}
           />
           <IconButton
             icon={icons.search}
             accessibilityLabel="검색 시작"
+            color={COLORS.primary}
             width={60}
+            onPress={() =>
+              router.push(`/search-results/${query.toString().trim()}`)
+            } // Initiate the search on a new page
           />
         </View>
       </SafeAreaView>

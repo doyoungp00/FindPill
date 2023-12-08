@@ -5,4 +5,7 @@ import MainMenuButton from "./main/MainMenuButton";
 import TextButton from "./generic/TextButton";
 import IconButton from "./generic/IconButton";
 
-export { MainMenuButton, TextButton, IconButton };
+// Results List
+import ResultsList from "./lists/results/ResultsList";
+
+export { MainMenuButton, TextButton, IconButton, ResultsList };
